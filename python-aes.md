@@ -39,13 +39,26 @@ Python approach to CBC
 With a zeroed iv, the result is the same as ECB.  Change one bit:
 
 ```
+>>> from Crypto.Cipher import AES
+>>> import binascii as ba
+>>>
+>>> k = "Thats my Kung Fu"
+>>> iv = '\x01' + '\x00' * 15
 >>> cipher = AES.new(k, mode=AES.MODE_CBC, IV=iv)
+>>>
+>>> data = "Two One Nine Two"
 >>> c = cipher.encrypt(data)
+>>> ba.hexlify(c)
+'b8c75fabde3d8c12ae992231fc004861'
+>>> 
+>>> cipher.decrypt(c)
+'\xed\xb00\x8b\x91S\xe92\xe0\xf0LT\xdcT?\x0e'
+>>> 
 >>> cipher = AES.new(k, mode=AES.MODE_CBC, IV=iv)
 >>> cipher.decrypt(c)
 'Two One Nine Two'
 >>> 
 ```
 
-Note the second call to `AES.new`, required for ECB mode but not for CBC.
+Note the second call to `AES.new`, required for decryption in ECB mode but not for CBC.
 
