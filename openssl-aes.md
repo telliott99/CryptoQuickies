@@ -86,6 +86,8 @@ Or we could write them to a file.
 >
 ```
 
+Note that the result matches what we got when implementing AES from scratch [here](../Crypto/AES4-encrypt.md), and we get the same result using the Python `pycrypto` module. [here](python-aes.md).
+
 
 #### decrypt
 
@@ -129,14 +131,17 @@ So here's a problem.  From the command line with `-K` and the password hex data 
 29c3505f571420f6402299b31a02d73a
 ```
 
-Here we got
+I know this is the correct result (see above)
+
+
+Using the `-kfile` approach, we got
 
 ```
 53616c7465645f5f3032a065cf41c9ca4264a0a0e5325a31e29743292252
 4e06
 ```
 
-And I got something a bit different with
+And something a bit different with
 
 ```
 > openssl aes-128-ecb -e -nopad -pass file:key.txt -in msg.txt | xxd -p
