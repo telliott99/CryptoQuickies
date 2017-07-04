@@ -1,6 +1,31 @@
+#### Getting the pycrypto module
+
+From [here](https://pypi.python.org/pypi/pycrypto).
+
+On macOS, I used [Homebrew](https://brew.sh) to install a an up-to-date Python 2.
+
+```
+> python
+Python 2.7.13 (default, Jun 22 2017, 10:25:09) 
+[GCC 4.2.1 Compatible Apple LLVM 8.1.0 (clang-802.0.42)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+```
+
+My primary reason for that is that packages were failing to install for the system Python.  Now
+
+```
+> which pip
+/usr/local/bin/pip
+>
+> pip install pycrypto
+```
+
+works fine.
+
 #### Using the pycrypto module
 
-Python approach to ECB
+The Python approach to ECB
 
 ```
 >>> from Crypto.Cipher import AES
@@ -24,7 +49,7 @@ Python approach to ECB
 
 That matches our AES implementation.
 
-Python approach to CBC
+The Python approach to CBC
 
 ```
 >>> iv = '\x00' * 16
