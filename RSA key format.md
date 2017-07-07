@@ -196,102 +196,35 @@ We've explained everything except for the fact that in the first example we had 
 	phi = 944871834912248880
 	d = 8578341116816273
 
+I did this in a [script](parse.py), using the methods we just discussed.  The output is
+
 ```
->>> 
->>> priv_key = rsa.PrivateKey(n,e,d,p,q)
->>> print priv_key
-PrivateKey(944871836856449473, 65537, 8578341116816273, 961748941, 982451653)
->>> s = priv_key.save_pkcs1()
->>> print s
+> python parse.py 
 -----BEGIN RSA PRIVATE KEY-----
 MDkCAQACCA0c2+3yGXnBAgMBAAECBx559K8Hq5ECBDlTH80CBDqPBcUCBBEqrXkC
 BCc4mh0CBACAc5Q=
 -----END RSA PRIVATE KEY-----
->>> s = dec('MDkCAQACCA0c2+3yGXnBAgMBAAECBx559K8Hq5ECBDlTH80CBDqPBcUCBBEqrXkCBCc4mh0CBACAc5Q=')
->>> L = [ord(c) for c in s]
->>> len(L)
-59
->>> 
-```
 
-It's probably easier in hex
-
-```
->>> binascii.hexlify(s)
-'303902010002080d1cdbedf21979c1020301000102071e79f4af07ab91020439531fcd02043a8f05c50204112aad79020427389a1d020400807394'
->>>
-```
-
-Break it up by splitting on `02`
-
-    3039
-    020100
-    02080d1cdbedf21979c1
-    0203010001
-    02071e79f4af07ab91
-    020439531fcd
-    02043a8f05c5
-    0204112aad79
-    020427389a1d
-    020400807394
-    
-
-```
->>> int('0d1cdbedf21979c1',16)
-944871836856449473
->>>
-```
-
-Recall:
-
-	p = 961748941
-	q = 982451653
-	n = p*q = 944871836856449473
-	e = 65537
-	phi = 944871834912248880
-	d = 8578341116816273
-
-
-So the first long value is *n*. The next is clearly *e*.  Then we have
-
-```
->>> int('1e79f4af07ab91',16)
-8578341116816273
->>> 
-```
-
-That would be *d*.  Then *p*
-
-```
->>> int('39531fcd',16)
-961748941
->>> p
-961748941
-```
-
-followed by *q*
-
-```
->>> int('3a8f05c5',16)
-982451653
->>> q
-982451653
->>>
+MDkCAQACCA0c2+3yGXnBAgMBAAECBx559K8Hq5ECBDlTH80C\
+BDqPBcUCBBEqrXkCBCc4mh0CBACAc5Q=
+944871836856449473   0d1cdbedf21979c1 n
+             65537             010001 e
+  8578341116816273     1e79f4af07ab91 d
+         961748941           39531fcd p
+         982451653           3a8f05c5 q
+         288009593           112aad79
+         658020893           27389a1d
+           8418196           00807394
+>
 ```
 
 Exactly in the order that we specified them to the constructor.
 
 We have three more values
 
-```
->>> int('112aad79',16)
-288009593
->>> int('27389a1d',16)
-658020893
->>> int('00807394',16)
-8418196
->>>
-```
+    288009593
+    658020893
+    8418196
 
 According to [this](https://tools.ietf.org/html/rfc3447#page-44), these fields are:  
 
