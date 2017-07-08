@@ -33,7 +33,7 @@ This line
 
     -----BEGIN RSA PUBLIC KEY-----
 
-identifies the format as PKCS#1.
+identifies the format as PKCS #1.
 
 ```
 >>> from base64 import b64decode as dec
