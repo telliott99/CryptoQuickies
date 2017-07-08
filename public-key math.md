@@ -313,4 +313,4 @@ Then
 * `m**d % n = c`, private key encryption
 * `c**e % n = p`, decryption
 
-*decryption* of a message encrypted with the public key, and *encryption* of a message to be decrypted by the public key, both use the secret, private key.
+*decryption* of a message encrypted with the public key, and *encryption* of a message meant to be decrypted by the public key, both use the secret, private key.
