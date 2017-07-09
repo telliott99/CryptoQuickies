@@ -1,6 +1,6 @@
 #### Public key structure
 
-RSA keys are some multiple of 1024 bits, like 1024, 2048, 4096 bits.
+RSA keys are some multiple of 1024 bits, such as 1024, 2048, or 4096 bits.
 
 It will make it easier to examine the structure of a key if we use a short one.  
 
@@ -18,7 +18,7 @@ The Python [rsa](https://pypi.python.org/pypi/rsa) module allows that.
 >>> e = 17
 >>> 
 ```
-We have our numbers, let's make a key.
+We have our numbers, let's make a public key.
 
 ```
 >>> pub_key = rsa.PublicKey(n=n,e=e)
@@ -44,7 +44,7 @@ identifies the format as PKCS #1.
 [48, 8, 2, 3, 1, 81, 27, 2, 1, 17]
 >>>
 ```
-So we have a grand total of 10 bytes in our super-duper public key.
+Our super-duper public key consists of a grand total of 10 bytes.
 
 The first thing we recognize is that the very last byte holds the value of `e`.
 
@@ -73,9 +73,9 @@ Pick out the correct bytes (5-7):
 >>>
 ```
 
-The `3` preceeding these bytes and the `1` preceeding `17` presumably refer to the length of the data section for each value.
+The `3` preceeding these bytes and the `1` preceeding `17` each presumably refers to the length of the data section for that value.
 
-The key can be saved in different formats:  this one is `PKCS#1`.  The other one that the rsa module uses is `PKCS#1.5` PEM-encoding.  
+The key can be saved in different formats:  this one is `PKCS#1`.  
 
 And another very common format is `SSH`.  All this makes life challenging.
 
@@ -83,9 +83,9 @@ According to [this](http://blog.oddbit.com/2011/05/08/converting-openssh-public-
 
     The data in a PKCS#1 key is encoded using DER, which is a set of rules for serializing ASN.1 data
 
-I haven't looked to much into this.
+I haven't looked to much into this but I know that PEM is the base64-encoded version of DER binary data.
 
-From our data
+Looking at our data
     
     48, 8, 2, 3, 1, 81, 27, 2, 1, 17
 
@@ -218,9 +218,9 @@ BDqPBcUCBBEqrXkCBCc4mh0CBACAc5Q=
 >
 ```
 
-Exactly in the order that we specified them to the constructor.
+These are exactly in the order that we specified them to the constructor.
 
-We have three more values
+We have three extra values
 
     288009593
     658020893
@@ -242,4 +242,4 @@ According to [this](https://tools.ietf.org/html/rfc3447#page-44), these fields a
 >>>
 ```
 
-That's a match!
+That's a match! 
