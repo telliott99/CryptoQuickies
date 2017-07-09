@@ -47,7 +47,7 @@ We see
 
 As described in my blog [post](http://telliott99.blogspot.com/2011/08/dissecting-rsa-keys-in-python-2.html)
 
-The base64-encoded key data consists of a big-endian UInt64 with the value 7, which indicates the length of that section followed by the data:  `ssh-rsa`.
+The base64-encoded key data consists of a big-endian UInt32 with the value 7, which indicates the length of that section followed by the data:  `ssh-rsa`.
 
 Next is a length 3 followed by 1, 0, 1.  The 1,0,1 is 1 * 256**2 + 1 = 65537.
 
