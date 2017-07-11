@@ -1,8 +1,11 @@
 ### Crypto Quickies
 
+#### math
+- [modular math](modular_arithmetic.md)
+- [euclidean algorithm](euclidean_algorithm.md)
+- [public key math](public-key_math.md)
 
 #### RSA keys
-- [math](public-key_math.md)
 - [intro to key structure](RSA_key_intro.md)
 - [key format details](RSA_key_formats.md)
 - [ssh key dissection](RSA_key_ssh.md)
@@ -12,7 +15,7 @@
 - [command line CBC](openssl-aes-cbc.md)
 - [Python for AES](python-aes.md)
 
-#### Simple code
+#### Simple ciphers
 - [Caesar cipher](caesar.md)
     - [caesar.py](
 caesar.py)

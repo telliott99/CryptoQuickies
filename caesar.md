@@ -17,7 +17,7 @@ z -> C
 
 (using lowercase for the *plaintext* and uppercase for the *ciphertext*).  At the end of the alphabet, it "wraps around" with `x -> A` and so on.
 
-A simple implmentation is [here](caesar.py).
+A simple implmentation is [here](scripts/caesar.py).
 
 The output is
 
