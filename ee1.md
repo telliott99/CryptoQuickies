@@ -304,4 +304,4 @@ u = 16;  v = -30
 
 At the third round `b = 0` so we don't enter the loop.  We return `u = 16`.  
 
-Even with all of this detailed output, it is difficult for me to see how it works.  For that reason I wrote my own version. [next](extended euclidean 2.md).
+Even with all of this detailed output, it is difficult for me to see how it works.  For that reason I wrote my own version. [next](ee2.md).

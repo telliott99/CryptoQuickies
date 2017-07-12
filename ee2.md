@@ -1,9 +1,9 @@
 ### Coding the extended Euclidean algorithm
 
 I found a nice page about this topic 
-[link](http://www-math.ucdenver.edu/~wcherowi/courses/m5410/exeucalg.html)
+[here](http://www-math.ucdenver.edu/~wcherowi/courses/m5410/exeucalg.html).
 
-The extended Euclidean algorithm uses information that is generated in the Euclidean algorithm, which is normally discarded, in order to compute multiplicative inverses in modular arithmetic.
+The extended Euclidean algorithm uses information that is generated in running the Euclidean algorithm, but which is normally discarded, in order to compute multiplicative inverses in modular arithmetic.
 
 #### Example
 
@@ -79,19 +79,27 @@ But the left-hand side is just `1` and the last term is `0` so we have
 
      1 = -23(13) mod 60
 
-The very definition of the modular multiplicative inverse!  The only other step is to realize that `-23 mod 60 = 37`, and indeed
+The very definition of the modular multiplicative inverse!
+
+The only other step is to realize that
+
+    -23 mod 60 = 37
+   
+and indeed
 
     37 * 13 % 60 = 1
     
 #### Code
 
-Code was a bit challenging.  I couldn't really understand the code I got from the web.  I tried doing things symbolically, but it turned into a mess.  I deleted it, but it had terms like
+Code was a bit challenging.  I couldn't really understand the code I got from the web.
+
+I tried doing things symbolically, but it turned into a mess.  I deleted it, but it had terms like
 
     q1q3 + q1q5 + q1q2q3q4q5 + ...
     
-But after staring at the example for a while, I was able to come up with code which returns all the data from `gcd` (we need only the quotients but the rest of it makes it easy to print exactly what we have above.
+But after staring at the example for a while, I came up with code which returns all the data from `gcd` (we need only the quotients but the rest of it makes it easy to print exactly what we have written above in the example.
 
-Using those quotients and starting with the right `a` and `b`, the loop for rounds 2 and after is
+Using those quotients and starting with the correct `a` and `b`, the loop for rounds 2 and after is
 
 ``` python
 for i in range(2,N):
@@ -105,7 +113,7 @@ for i in range(2,N):
 
 which is simple enough that you have to wonder why I've struggled with this all day.
 
-The heart of it is to have two variables which hold the values of the coefficients of `a` and `b`:  `ca` and `cb`.  The value of `cb` is used in updating `ca` and vice-versa, so we use `tmp` to cache the value of `ca` for a second.
+The heart of it is to have two variables which hold the values of the coefficients of `a` and `b`:  `ca` and `cb`.  The value of `cb` is used in updating `ca` and vice-versa, so we use `tmp` to cache the value of `ca` for one line.
 
 Anyway, the script [eea.py](scripts/eea.py) takes two integers on the command line and generates 
 
@@ -143,7 +151,7 @@ Note that the first row has `r=1` (these two are coprime).
 
 And just to check:
 
-```
+``` python
 >>> 58498*104660 % 333337
 1
 >>>
