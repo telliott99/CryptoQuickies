@@ -3,6 +3,8 @@
 #### math
 - [modular math](modular_arithmetic.md)
 - [euclidean algorithm](euclidean_algorithm.md)
+- [extended euclidean](extended_euclidean.md)
+- [extended euclidean, part 2](extended_euclidean 2.md)
 - [public key math](public-key_math.md)
 
 #### RSA keys
@@ -16,7 +18,5 @@
 - [Python for AES](python-aes.md)
 
 #### Simple ciphers
-- [Caesar cipher](caesar.md)
-    - [caesar.py](
-caesar.py)
-    - [mcipher.py](mcipher.py)
+- [Caesar cipher](caesar.md): &nbsp;   [caesar.py](
+caesar.py), [mcipher.py](mcipher.py)
