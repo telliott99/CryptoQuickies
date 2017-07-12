@@ -67,7 +67,7 @@ Round 5:
 
 Check that `23(13) = 299`.  Yes.
 
-You remember from [last time](extended euclidean.md) when we said that we can take an equation like
+You remember from [last time](ee1.md) when we said that we can take an equation like
 
      1 = -23(13) + 5(60)
 

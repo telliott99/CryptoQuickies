@@ -3,8 +3,8 @@
 #### math
 - [modular math](modular_arithmetic.md)
 - [euclidean algorithm](euclidean_algorithm.md)
-- [extended euclidean](extended_euclidean.md)
-- [extended euclidean, part 2](extended_euclidean 2.md)
+- [extended euclidean](ee1.md)
+- [extended euclidean 2](ee2.md)
 - [public key math](public-key_math.md)
 
 #### RSA keys
