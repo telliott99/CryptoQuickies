@@ -101,7 +101,7 @@ Let's put off an analysis of this for another time.
 
 #### Exponentiation
 
-We use essentially the same setup as for multiplication.  Except we multiply rather than add.
+We use essentially the same setup as for multiplication, except that we multiply rather than add.
 
 ``` python
 def exponentiate_mod(i,j,p):

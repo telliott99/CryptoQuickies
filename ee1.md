@@ -105,7 +105,8 @@ The simplest way to arrange this is to choose *n* prime, since then every intege
 
 The following simple Python function finds the inverse.  It is a "cleaned up" version of something I found on the web [here](https://www.johannes-bauer.com/compsci/ecc/).  
 
-It is not so clear to me how it works.
+This turns out to be a famous (and famously opaque) algorithm due to Donald Knuth.  
+
 
 ``` python
 def eea(a,b):

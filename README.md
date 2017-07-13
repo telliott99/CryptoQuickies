@@ -1,11 +1,15 @@
 ### Crypto Quickies
 
+[resources](resources.md)
+
 #### math
 - [modular math](modular_arithmetic.md)
 - [euclidean algorithm](euclidean_algorithm.md)
 - [extended euclidean](ee1.md)
 - [extended euclidean 2](ee2.md)
+- [Fermat's Theorem](fermat.md)
 - [public key math](public-key_math.md)
+- [probably prime](probably_prime.md)
 
 #### RSA keys
 - [intro to key structure](RSA_key_intro.md)

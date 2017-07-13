@@ -1,9 +1,38 @@
 ### Coding the extended Euclidean algorithm
 
+The extended Euclidean algorithm uses information that is generated in running the Euclidean algorithm, but which is normally discarded, in order to compute multiplicative inverses in modular arithmetic.
+
 I found a nice page about this topic 
 [here](http://www-math.ucdenver.edu/~wcherowi/courses/m5410/exeucalg.html).
 
-The extended Euclidean algorithm uses information that is generated in running the Euclidean algorithm, but which is normally discarded, in order to compute multiplicative inverses in modular arithmetic.
+Note:  in what follows we look in detail at the example `gcd(60,13)` and find that the multiplicative inverse of `13` mod `60` is `37`.  However, the inverse  exists if and only if the greatest common divisor is `1`.  In the case of arithmetic `mod 60`, the integer `6` does *not* have a multiplicative inverse.  That's because
+
+    6 * i mod 60
+
+cannot be equal to `1`.  For `60` only the following numbers have inverses (as shown):
+
+```
+7 43
+11 11
+13 37
+17 53
+19 19
+23 47
+29 29
+31 31
+37 13
+41 41
+43 7
+47 23
+49 49
+53 17
+59 59
+
+```
+
+Only the primes have inverses, and only those primes that do not evenly divide `60`. 
+
+For this reason, it is more common to think about fields `mod p` where `p` is prime.   Then all `1 < n < p` will have inverses.
 
 #### Example
 

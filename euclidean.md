@@ -2,7 +2,19 @@
 
 As a result of our interest in modular arithmetic, we take a look at the famous Euclidean algorithm, which yields the `gcd` (greatest common divisor) of two integers `a` and `b`.
 
-It consists of the following steps:
+The reason this is important is that factoring large numbers is very difficult.
+
+Consider the calculation of the greatest common divisor (gcd) of
+
+```
+819 = 3 x 3 x 7 x 13
+462 = 2 x 3 x 7 x 11
+
+```
+
+We see immediately that the `gcd(819,462) = 21`. The problem with this method is that there is no efficient algorithm to factor integers.
+
+The algorithm consists of the following steps:
 
 * compute `r = a mod b`
 * if `r == 0:  return b`
