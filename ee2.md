@@ -93,11 +93,13 @@ and indeed
 
 Code was a bit challenging.  I couldn't really understand the code I got from the web.
 
-I tried doing things symbolically, but it turned into a mess.  I deleted it, but it had terms like
+I tried doing things symbolically, but it turned into a mess.  I deleted it so I don't have it to show, but it contained terms like
 
     q1q3 + q1q5 + q1q2q3q4q5 + ...
     
-But after staring at the example for a while, I came up with code which returns all the data from `gcd` (we need only the quotients but the rest of it makes it easy to print exactly what we have written above in the example.
+and I couldn't find a pattern with 5 rounds and I didn't feel like carrying out any more.
+
+After staring at the example for a while, I came up with code which returns all the data from `gcd` (we need only the quotients but the rest of it makes it possible to print exactly what we have written above in the example.
 
 Using those quotients and starting with the correct `a` and `b`, the loop for rounds 2 and after is
 
@@ -115,6 +117,8 @@ which is simple enough that you have to wonder why I've struggled with this all 
 
 The heart of it is to have two variables which hold the values of the coefficients of `a` and `b`:  `ca` and `cb`.  The value of `cb` is used in updating `ca` and vice-versa, so we use `tmp` to cache the value of `ca` for one line.
 
+Comparing to the code we had in the [previous section](ee1.md) possible disadvantage is that we go all the way through the Euclidean algorithm and then backtrack, but there isn't that much data to remember and there aren't that many steps.  There are only two variables really, `ca` and `cb`, and furthermore it is clear what they represent.
+
 Anyway, the script [eea.py](scripts/eea.py) takes two integers on the command line and generates 
 
 ```
@@ -128,7 +132,7 @@ multiplicative inverse of 13 is 37 mod 60
 >
 ```
 
-which I think you will find matches what we had above.
+which matches what we had above.
 
 Just picking two random numbers out of thin air
 
@@ -147,7 +151,7 @@ a=333337,b=58498,q=5,r=40847,ca=-18367,cb=104660
 multiplicative inverse of 58498 is 104660 mod 333337
 >
 ```
-Note that the first row has `r=1` (these two are coprime).
+Note that the first row has `r=1` (these two are do not have a common divisor other than `1`).
 
 And just to check:
 

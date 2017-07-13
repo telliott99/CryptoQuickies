@@ -1,5 +1,7 @@
 ### Multiplicative inverse
 
+(Note: every number here is an integer).
+
 Suppose we know `e` and want to find `d` such that 
 
     e*d mod p = 1
@@ -185,9 +187,13 @@ def eea(a,b):
 print eea(81,57)
 ```
 
-which prints the result `10`.
+which prints the result `10`.  That's because
 
-and we have the output from the Euclidean algorithm
+    57 * 10 % 81 = 3
+
+and `3` is equal to `gcd(81,57)`.
+
+which is the output from the Euclidean algorithm
 
 Consider `gcd(81,57)`
 
