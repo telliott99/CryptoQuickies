@@ -20,23 +20,29 @@
 \Large
 
 \subsection*{theorem}
-Fermat's Theorem (often called Fermat's "little" Theorem) says that for any prime number $p$ and any integer $1 < a < n$ 
+Fermat's Theorem (often called Fermat's "little" Theorem to distinguish it from his "last" theorem) says that for any prime number $p$ and any integer $1 < a < n$ 
 \[ a^p  \text{ mod } p = a \]
-Examples:  $2^3 \text{ mod } 3 = 2$;  $2^5 \text{ mod } 5 = 32  \text{ mod } 5 = 2$;  $3^5 \text{ mod } 5 = 243 \text{ mod } 5 = 3$.
-
 An equivalent statement is
 \[ a^{p-1} \text{ mod } p = 1 \]
+
+Examples:
+\begin{verbatim}
+2^3 mod 3 =   2
+2^5 mod 5 =  32 mod 5 = 2
+3^5 mod 5 = 243 mod 5 = 3
+\end{verbatim}
+
 Consider $p=7$
 \begin{verbatim}
-1**6       1 mod 7 = 1
-2**6 =    64 mod 7 = 1
-3**6 =   729 mod 7 = 1
-4**6 =  4096 mod 7 = 1
-5**6 = 15625 mod 7 = 1
-6**6 = 46656 mod 7 = 1
+1^6       1 mod 7 = 1
+2^6 =    64 mod 7 = 1
+3^6 =   729 mod 7 = 1
+4^6 =  4096 mod 7 = 1
+5^6 = 15625 mod 7 = 1
+6^6 = 46656 mod 7 = 1
 \end{verbatim}
-Here is a table from Laws of Cryptography  for $p = 13$, which computes such powers more efficiently (computing mod $7$ at each step).
-\begin{center} \includegraphics [scale=0.7] {Fermat13.png} \end{center}
+Here is a table from Laws of Cryptography  for $p = 13$, which computes such powers more efficiently (computing mod $p$ at each step).
+\begin{center} \includegraphics [scale=0.65] {Fermat13.png} \end{center}
 
 \url{www.cs.utsa.edu/~wagner/lawsbookcolor/laws.pdf}
 
@@ -56,37 +62,33 @@ Let's do the calculation for $a = 7, p = 13$:
 7**12 = 14 - 1(13) =  1
 \end{verbatim}
 
-As the theorem says, we cycle around to $7^{12}$ mod $13 = 1$.  The number $7$ is called a generator because its powers generate all the values in the field $Z_{13}$. 
+As the theorem says, we cycle around to $7^{12}$ mod $13 = 1$.  The number $7$ is called a \emph{generator} because its powers generate all the values in the field $Z_{13}$. 
 
-$2, 6$ and $11$ are also generators for this field.
+$2, 6$ and $11$ are also generators for $Z_{13}$.
 
-Other values for $a$ have shorter repeats.  The lengths of these runs are divisors of 12.
+Other values for $a$ have shorter repeats.  The lengths of such runs are divisors of 12.
 
 As the source says:
 
 \textbf{Because $a$  to a power $x$ mod $p$ always starts repeating after the power reaches $p-1$, one can reduce the power mod $p-1$ and still get the same answer."}
 
-Thus no matter how big the power $x$
-\[ a^x \text{ mod } p = a^{x \text{ mod } p-1} \text{ mod } p \]
+Thus no matter how big the power $x$, let $y = x \text{ mod } (p-1)$ and then
+\[ a^x \text{ mod } p = a^{y} \text{ mod } p \]
 For example, mod $13$:
 \[ a^{29} \text{ mod } 13 = a^{29 \text{ mod } 12} \text{ mod } 13 = a^5  \text{ mod } 13 \]
 
 \subsection*{proof of Fermat's Theorem}
 
-There is a beautiful proof in wikipedia called the "necklace proof".
+Note that Fermat didn't actually prove his theorem.  Euler did.  There is a beautiful combinatorial proof in wikipedia called the "necklace proof".  Here is another write-up:
 
+\url{https://tinyurl.com/yblp24u2}
 \subsection*{consequence}
-
-A consequence of this is that the sequence
-\[ a^1, a^2, a^3 \dots a^{p-1} \]
-repeats, so this sequence
-\[ a^{p}, a^{p+1} \dots a^{2p - 1} \]
-gives exactly the same values.
+A consequence of this theorem is that the sequence $a^1, \ a^2, \ a^3 \dots a^{p-1}$ repeats, so the sequence $a^{p}, a^{p+1} \dots a^{2p - 1}$ gives exactly the same values.
 
 \subsection*{Euler}
 Euler's totient function $\phi(n)$ is defined like so:
 \[ \phi(n) = n \ \prod \ (1 - \frac{1}{p_i}) \]
-(with $p_i$ being the prime factors of $n$).  In number theory, $\phi$ is a count of the positive integers up to a given integer $n$ that are relatively prime to $n$ (are not divisors of $n$).
+(with $p_i$ being the prime factors of $n$).  In number theory, $\phi$ gives the count of the positive integers up to a given integer $n$ that are relatively prime to $n$ (are not divisors of $n$).
 
 \subsection*{theorem}
 Relevant to our study of cryptography, Euler's Theorem says that for an integer $a < p$ (not equal to $1$):
@@ -95,31 +97,35 @@ If $n$ is prime this reduces to
 \[ \phi(n) = n \ \prod (1 - \frac{1}{n}) =  n(1 -  \frac{1}{n}) = n - 1 \]
 and then
 \[ a^{n-1} \text{ mod } n = 1 \]
-giving Fermat's Theorem as a special case of Euler's Theorem.
+showing that Fermat's Theorem is a special case of Euler's Theorem.
 
-Here we are more interested in the situation where $n$ has two large prime factors $p$ and $q$ and then:
+Here we are most interested in the situation where $n$ has two large prime factors $p$ and $q$ and then:
 \[ \phi(n) = pq \ (1 - \frac{1}{p}) (1 - \frac{1}{q}) = (p - 1)(q - 1)  \]
-I will write $\phi$ for $\phi(n)$ from now on.
-
 Furthermore, we have that encryption followed by decryption is $m^{ed} \text{ mod } n = m$.  We would like to show that this follows as a consequence of our definitions.  
 
-Recall that we set $d$ to be the multiplicative inverse of $e$ mod $\phi$. 
+From now on, I will write $\phi$ for $\phi(n)$.  Recall that we set $d$ to be the multiplicative inverse of $e$ mod $\phi$. 
 
 Write out what's given:
 \[ \phi = (p - 1)(q - 1) \]
 \[ m^{\phi} \text{ mod } n = 1 \]
 \[ ed  \text{ mod } \phi = 1 \]
-And our encryption/decryption is $(m^{e})^{d}$ mod $n$  or:
+Our chained encryption/decryption is $(m^{e})^{d}$ mod $n$  or:
 \[ m^{ed} \text{ mod } n \]
 
 My source says:  "similar to Fermat's Theorem, arithmetic in the exponent is taken mod $\phi$."  
 
-So the idea is that since  
+The idea is that since  
 \[ m^{\phi} \text{ mod } n = 1 \]
-if we are computing any \emph{other} power of $m$, say $ed$, we need only compute to the $ed$ mod $\phi$ power, because beyond that, the sequence just repeats.
 
-So, (assuming $m$ has no common divisors with $n$):
-\[ m^{ed} \text{ mod } n = m^{ed \text{ mod } \phi} \ \text{ mod } n \]
+if we are computing any \emph{other} power of $m$, say $ed$, we need only compute to the power of $ed$ mod $\phi$, because beyond that, the sequence just repeats.  (Note:  we saw the repetition for Fermat's Theorem, but didn't prove it.  We are accepting the source that says it happens here as well, even though $n$ is not prime).
+
+Here we have $m$  to the power $ed$ and then mod $pq$, and we reduce the power $ed$ mod $\phi$ since $\phi = (p-1)(q-1)$.
+
+(Assuming $m$ has no common divisors with $n$):
+\[ m^{ed} \text{ mod } n \]
+\[ = m^{ed} \text{ mod } pq \]
+\[ = m^{ed \text{ mod } \phi} \text{ mod } pq \]
+\[ = m^{ed \text{ mod } \phi} \]
 But of course $ed \text{ mod } \phi = 1$ so this is just $m$.
 
 Furthermore, $m^{ed} = m^{de}$, hence the ability to encrypt first with the private key and then decrypt with the public one.
