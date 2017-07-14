@@ -346,3 +346,12 @@ Then
 * `c**e % n = p`, decryption
 
 *decryption* of a message encrypted with the public key, and *encryption* of a message meant to be decrypted by the public key, both use the secret, private key.
+
+#### Proof
+
+A most desireable property of this system is that
+
+    (m^e)^d = m
+
+We explore how this comes about [here](euler.pdf).
+   

@@ -3,7 +3,7 @@
 [resources](resources.md)
 
 #### math
-- [modular math](modular_arithmetic.md)
+- [modular math](modular_math.md)
 - [euclidean algorithm](euclidean_algorithm.md)
 - [extended euclidean](ee1.md)
 - [extended euclidean 2](ee2.md)
@@ -24,3 +24,4 @@
 #### Simple ciphers
 - [Caesar cipher](caesar.md): &nbsp;   [caesar.py](
 caesar.py), [mcipher.py](mcipher.py)
+- [Beale cipher](Beale_cipher.md)
