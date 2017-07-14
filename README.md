@@ -7,7 +7,7 @@
 - [euclidean algorithm](euclidean_algorithm.md)
 - [extended euclidean](ee1.md)
 - [extended euclidean 2](ee2.md)
-- [Fermat's Theorem](fermat.md)
+- Fermat and Euler [pdf](euler.pdf)
 - [public key math](public-key_math.md)
 - [probably prime](probably_prime.md)
 
