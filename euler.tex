@@ -22,8 +22,11 @@
 \subsection*{theorem}
 Fermat's Theorem (often called Fermat's "little" Theorem to distinguish it from his "last" theorem) says that for any prime number $p$ and any integer $1 < a < n$ 
 \[ a^p  \text{ mod } p = a \]
-An equivalent statement is
+Two equivalent statements are
 \[ a^{p-1} \text{ mod } p = 1 \]
+\[ (a^p - a)  \text{ mod } p = 0 \]
+
+The second statement is what we use in analyzing the RSA method, and the third is used in the combinatorial proof of the theorem.
 
 Examples:
 \begin{verbatim}
@@ -66,29 +69,71 @@ As the theorem says, we cycle around to $7^{12}$ mod $13 = 1$.  The number $7$ i
 
 $2, 6$ and $11$ are also generators for $Z_{13}$.
 
-Other values for $a$ have shorter repeats.  The lengths of such runs are divisors of 12.
+Other values for $a$ have shorter repeats (2, 3, 4 or 6 long).  The lengths of such runs are divisors of 12.
+
+\subsection*{proofs of Fermat's Theorem}
+
+Note that Fermat didn't actually prove his theorem.  Euler proved something more general, the theorem we introduce below, and Fermat is a specific case of that.
+
+There is a beautiful combinatorial proof called the "necklace proof".  Here is a write-up:
+
+\small
+\url{http://scienceblogs.com/evolutionblog/2010/04/15/a-combinatorial-proof-of-ferma/}
+\Large
+
+\subsection*{combinatorial proof}
+
+We construct a necklace of $p$ beads, choosing from $a$ different colors.  We start by threading beads onto a linear piece of string.
+
+Since we can choose any one of $a$ colors, $p$ times, there are $a^p$ possible sequences.  However, we wish to exclude arrangements where all the beads have the same color  There are $a$ of these and so the number of arrangements is $a^p - a$.
+
+Now, join the ends of the string.  Some sequences become indistinguishable.  There are $p$ such cyclic shifts for each arrangement.  For example, any cyclic permutation of $ABCBAAC$ looks the same:
+
+\begin{center} \includegraphics [scale=0.3] {necklace.png} \end{center}
+
+Therefore, the total number of arrangements is reduced by a factor of $p$.
+\[ n = \frac{a^p - a}{p} \]
+
+The key fact is that $n$, the number of different arrangements, is clearly an integer.  So we have that
+\[ a^p - a = np \]
+If we take the modulus of both sides (mod $p$) we have the result we seek.
+\[ (a^p - a)  \text{ mod } p = 0 \]
+
+\subsection*{proof by induction}
+
+This proof is just as simple.  We claim that
+\[ a^p  \text{ mod } p = a \]
+The base case is $1^p$ mod $p = 1$, which is obviously true.  
+
+The binomial theorem gives
+\[  (a+1)^p = a^p + \binom{p}{1} a^{p-1} + + \binom{p}{2} a^{p-2} + \dots + \binom{p}{p-1} a + 1  \]
+All of the middle terms have $p$ as a factor, so mod $p$ each is just zero.  We have
+\[  (a+1)^p \text{ mod } p = (a^p + 1)  \text{ mod } p \]
+So then supposing that $a^p  \text{ mod } p = a$, this is just
+\[ (a+1)^p \text{ mod } p= (a + 1) \text{ mod } p \]
+This completes the proof.
+
+$\square$
+
+\subsection*{consequence}
+A consequence of this theorem is that the sequence $a^1, \ a^2, \ a^3 \dots a^{p-1}$ repeats, so the sequence $a^{p}, a^{p+1} \dots a^{2p - 1}$ gives exactly the same values.
 
 As the source says:
 
 \textbf{Because $a$  to a power $x$ mod $p$ always starts repeating after the power reaches $p-1$, one can reduce the power mod $p-1$ and still get the same answer."}
 
-Thus no matter how big the power $x$, let $y = x \text{ mod } (p-1)$ and then
+Thus no matter how big the power $x$, let 
+\[ y = x \text{ mod } (p-1) \]
+and then
 \[ a^x \text{ mod } p = a^{y} \text{ mod } p \]
 For example, mod $13$:
-\[ a^{29} \text{ mod } 13 = a^{29 \text{ mod } 12} \text{ mod } 13 = a^5  \text{ mod } 13 \]
-
-\subsection*{proof of Fermat's Theorem}
-
-Note that Fermat didn't actually prove his theorem.  Euler did.  There is a beautiful combinatorial proof in wikipedia called the "necklace proof".  Here is another write-up:
-
-\url{https://tinyurl.com/yblp24u2}
-\subsection*{consequence}
-A consequence of this theorem is that the sequence $a^1, \ a^2, \ a^3 \dots a^{p-1}$ repeats, so the sequence $a^{p}, a^{p+1} \dots a^{2p - 1}$ gives exactly the same values.
+\[ a^{29} \text{ mod } 13 = a^{29 \text{ mod } 12} \text{ mod } 13 \]
+\[ = a^5  \text{ mod } 13 \]
 
 \subsection*{Euler}
 Euler's totient function $\phi(n)$ is defined like so:
 \[ \phi(n) = n \ \prod \ (1 - \frac{1}{p_i}) \]
-(with $p_i$ being the prime factors of $n$).  In number theory, $\phi$ gives the count of the positive integers up to a given integer $n$ that are relatively prime to $n$ (are not divisors of $n$).
+(where the $p_i$ are the prime factors of $n$).  In number theory, $\phi$ gives the count of the positive integers up to a given integer $n$ that are relatively prime to $n$ (that are not divisors of $n$).
 
 \subsection*{theorem}
 Relevant to our study of cryptography, Euler's Theorem says that for an integer $a < p$ (not equal to $1$):
@@ -122,10 +167,8 @@ if we are computing any \emph{other} power of $m$, say $ed$, we need only comput
 Here we have $m$  to the power $ed$ and then mod $pq$, and we reduce the power $ed$ mod $\phi$ since $\phi = (p-1)(q-1)$.
 
 (Assuming $m$ has no common divisors with $n$):
-\[ m^{ed} \text{ mod } n \]
-\[ = m^{ed} \text{ mod } pq \]
+\[ m^{ed} \text{ mod } n = m^{ed} \text{ mod } pq \]
 \[ = m^{ed \text{ mod } \phi} \text{ mod } pq \]
-\[ = m^{ed \text{ mod } \phi} \]
 But of course $ed \text{ mod } \phi = 1$ so this is just $m$.
 
 Furthermore, $m^{ed} = m^{de}$, hence the ability to encrypt first with the private key and then decrypt with the public one.

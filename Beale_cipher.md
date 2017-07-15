@@ -42,6 +42,23 @@ ATTACKATDAWN
 >
 ```
 
+Rather than do the calculation for each character, another method is to construct a table such as this:
+
+```
+[ABCDEFGHIJKLMNOPQRSTUVWXYZ,
+ BCDEFGHIJKLMNOPQRSTUVWXYZA,
+ CDEFGHIJKLMNOPQRSTUVWXYZAB,
+...
+ YZABCDEFGHIJKLMNOPQRSTUVWX,
+ ZABCDEFGHIJKLMNOPQRSTUVWXY]
+```
+
+Then choose a row based on the key and the column based on the message character (or vice-versa).  Here is an nice [image](figs/vigenere.png).
+
+This method is called the [Vigenère cipher](https://en.wikipedia.org/wiki/Vigenère_cipher).
+
+In Python, I would do this with a dictionary of dictionaries:  `c = D[k[m]]`.
+
 #### Transposition
 
 The text we chose for our key is pretty famous.  We can try to obscure that by various manipulations.  One way is transposition.
@@ -78,16 +95,34 @@ Variations on the above lead to the idea of using a static page on the web as th
 
 What about DNA?  There are a lot genes in Genbank!  
 
-Each single base is worth 4-bits (one for each base of the four bases).  
+Each single base is worth 4-bits (one for each base of the four bases). 
 
-Let's encode the bases as
+We can encode the bases as
 
     a = 00
     t = 10
     g = 01
     c = 11
+
+That makes every dinucleotide sequence equivalent to a hexadecimal base.
+
+```
+aa = 0000, ag = 0001, at = 0010, ac = 0011
+ga = 0100, gg = 0101, gt = 0110, gc = 0111
+ta = 1000, tg = 1001, tt = 1010, tc = 1011
+ca = 1100, cg = 1101, ct = 1110, cc = 1111
+```
+
+So a 12-mer sequence like
+
+    atgaccctttta
     
-Thirteen would be a sequence like:
+would be encoded in hex as
+
+    24 fc a8
+
+    
+There is going to be some wastage going to a 26-character alphabet.  Thirteen would be a sequence like:
 
     a t g a c c c t t t t a g
     00100100111111101010100001
@@ -121,10 +156,10 @@ We can transmit that as hex.
 >>>
 ```
 
-5 text characters turned into 26 binary digits, turned into 7 octal hex letters.  We waste a bit of keystream, but not much.
+5 text characters turned into 26 binary digits, turned into 7 octal hex letters.  We waste a bit of keystream, but not that much.
 
-We might use transposition as above to scramble the key a bit.  Or a spiral pattern.  Or seed a PNRG and choose the DNA letters according to that schedule.  
+We could use transposition as above to scramble the key a bit.  Or a spiral pattern.  Or seed a PNRG and choose the DNA letters according to that schedule.  But if you're going to do that, you might as well just use aes-cbc-128.
 
-The secret key would just be the gene for that message and the seed.
+The secret key would just be the gene for that message. Or a genome and a position where to begin, and a direction.
 
 

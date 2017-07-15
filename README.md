@@ -1,14 +1,18 @@
 ### Crypto Quickies
 
-[resources](resources.md)
+#### Simple ciphers
+- [Caesar cipher](caesar.md): &nbsp;   [caesar.py](
+caesar.py), [mcipher.py](mcipher.py)
+- [Beale cipher](Beale_cipher.md)
 
 #### math
+- [public key math](public-key_math.md)
 - [modular math](modular_math.md)
-- [euclidean algorithm](euclidean_algorithm.md)
+- [euclidean algorithm](euclidean.md)
 - [extended euclidean](ee1.md)
 - [extended euclidean 2](ee2.md)
 - Fermat and Euler [pdf](euler.pdf)
-- [public key math](public-key_math.md)
+- RSA works [proof](public-key_proof.md)
 - [probably prime](probably_prime.md)
 
 #### RSA keys
@@ -20,8 +24,9 @@
 - [command line ECB](openssl-aes-ecb.md)
 - [command line CBC](openssl-aes-cbc.md)
 - [Python for AES](python-aes.md)
+- [using a key file](aes_key_file.md)
 
-#### Simple ciphers
-- [Caesar cipher](caesar.md): &nbsp;   [caesar.py](
-caesar.py), [mcipher.py](mcipher.py)
-- [Beale cipher](Beale_cipher.md)
+#### Digests
+- [command line](openssl-digests.md)
+
+[links](resources.md)

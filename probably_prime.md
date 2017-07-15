@@ -1,9 +1,9 @@
 #### Probably prime numbers
 
-Wagner (link) says that if a very large random integer *p* (100 decimal digits or more) is
+Wagner ([link](http://www.cs.utsa.edu/~wagner/lawsbookcolor/laws.pdf)) says that if a very large random integer *p* (100 decimal digits or more) is
 
 * not divisible by a small prime
-* 3^{p-1} mod p = 1
+* has 3^{p-1} mod p = 1
 
 then the number is prime except for a vanishingly small probability, which one can ignore.
 
