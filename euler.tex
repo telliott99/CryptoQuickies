@@ -143,21 +143,54 @@ Of course, it is possible that the sequence may repeat even more quickly, as we 
 \subsection*{Euler}
 Euler's totient function $\phi(n)$ is defined like so:
 \[ \phi(n) = n \ \prod \ (1 - \frac{1}{p_i}) \]
-where the $p_i$ are the prime factors of $n$.  In number theory, $\phi$ gives the count of the positive integers up to a given integer $n$ that are relatively prime to $n$, that are not divisors of $n$.
+where the $p_i$ are the prime factors of $n$.
+
+For a prime number $p$, this is just $\phi = p - 1$.  
+
+For a product of primes $pq$, $\phi(p,q) = (p-1)(q-1) = \phi(p) \ \phi(q)$.  
+
+For three factors, $n = pqr$:
+\[ \phi(n) = \phi(p) \ \phi(q) \ \phi(r) \]
+
+In number theory, $\phi$ gives the count of the positive integers up to a given integer $n$ that are relatively prime to $n$, where the only common factor is $1$.  In fact, for the factorization $n=pq$, $p$ and $q$ need be only \emph{relatively prime}.
+
+Examples:
+\begin{verbatim}
+ n  co-prime     phi
+ 4 1,3           2
+ 6 1,5           1 x 2 = 2
+ 8 1,3,5,7
+10 1,3,7,9       1 x 4 = 4
+12 1,5,7,11      ? 
+\end{verbatim}
+
+We need a rule for when the prime factor is repeated.  That rule is
+\[ \phi(p^a) = p^a - p^{a-1} \]
+
+So for the table above 
+\[ \phi(4) = 2^2 - 2^1 = 2 \]
+\[ \phi(8) = 2^3 - 2^2 = 4 \]
+\[ \phi(12) = \phi(3) \phi(4) = 2(2^2 - 2^1) = 4 \]
+
+And in general:
+\[ n = p \cdot q^2 \cdot r^3 \]
+\[ \phi(n) = (p^1 - p^0)(q^2 - q^1)(r^3 - r^2) \]
 
 \subsection*{theorem}
-Relevant to our study of cryptography, Euler's Theorem says that for an integer $a < p$ (not equal to $1$):
+Relevant to the study of cryptography, Euler's Theorem says that for an integer $1 < a < p$:
 \[ a^{\phi(n)} \text{ mod } n = 1 \]
-If $n$ is prime this reduces to 
-\[ \phi(n) = n \ \prod (1 - \frac{1}{n}) =  n(1 -  \frac{1}{n}) = n - 1 \]
-and so
+
+As we said above, if $n$ is prime the formula for $\phi$ reduces to 
+\[ \phi(n) = n - 1 \]
+so then
 \[ a^{n-1} \text{ mod } n = 1 \]
-Fermat's Theorem is a special case of Euler's Theorem, when $n$ is prime.
 
-We skip the proof.  See
+Fermat's Theorem is thus seen to be a special case of Euler's Theorem, when $n$ is prime.
 
-\small
-\url{https://artofproblemsolving.com/wiki/index.php?title=Euler%27s_Totient_Theorem}
+We will not prove Euler's formula.  See Chapter 3 of this wonderful book for more about $\phi(n)$.
+
+\large
+\url{https://www.whitman.edu/mathematics/higher_math_online/}
 \Large
 
 \subsection*{cryptography}
@@ -190,7 +223,7 @@ Now, $5^2 = 25 = 1$ mod $6$.
 
  But $4^2 = 16$ mod $6 = 4$.  Thus, $4$ to \emph{any} power mod $6$ is $4$!.  The difference is that $4$ is not coprime to $6$, but $5$ is.
 
-For the big example, we have $m$  to the power $ed$ and then mod $pq$, and we reduce the power $ed$ mod $\phi$ since $\phi = (p-1)(q-1)$.
+For the big example, we have $m$  to the power $ed$ and then mod $pq$, and we reduce the power to be $ed$ mod $\phi$ since $\phi = (p-1)(q-1)$.
 
 (Assuming $m$ has no common divisors with $n$):
 \[ m^{ed} \text{ mod } n = m^{ed} \text{ mod } pq \]
