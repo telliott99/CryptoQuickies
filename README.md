@@ -8,11 +8,11 @@ caesar.py), [mcipher.py](mcipher.py)
 #### math
 - [public key math](public-key_math.md)
 - [modular math](modular_math.md)
-- [euclidean algorithm](euclidean.md)
-- [extended euclidean](ee1.md)
-- [extended euclidean 2](ee2.md)
+- [euclidean, gcd](euclidean.md)
+- [eeuclidean](ee1.md)
+- [eeuclidean 2](ee2.md)
+- [eeuclidean 3](ee3.md)
 - Fermat and Euler [pdf](euler.pdf)
-- RSA works [proof](public-key_proof.md)
 - [probably prime](probably_prime.md)
 
 #### RSA keys
