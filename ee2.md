@@ -1,15 +1,27 @@
-### Coding the extended Euclidean algorithm
+### Extended EA in code
 
-The extended Euclidean algorithm uses information that is generated in running the Euclidean algorithm, but which is normally discarded, in order to compute multiplicative inverses in modular arithmetic.
+#### inverses
 
-I found a nice page about this topic 
-[here](http://www-math.ucdenver.edu/~wcherowi/courses/m5410/exeucalg.html).
+We want to find multiplicative inverses, and to do that we will use the extended Euclidean algorithm.
 
-Note:  in what follows we look in detail at the example `gcd(60,13)` and find that the multiplicative inverse of `13` mod `60` is `37`.  However, the inverse  exists if and only if the greatest common divisor is `1`.  In the case of arithmetic `mod 60`, the integer `6` does *not* have a multiplicative inverse.  That's because
+First, here is a brute-force method which manually checks the remainder for every `n` until it finds one.
+
+If the inverse does not exist, this function will never return.
+
+``` python
+# requires a > b
+def caveman(m,p):
+    n = 2
+    while m*n % p != 1:
+        n += 1
+    return n
+```
+
+The inverse  exists if and only if the greatest common divisor is `1`.  In the case of arithmetic `mod 60`, the integer `6` does *not* have a multiplicative inverse.  That's because
 
     6 * i mod 60
 
-cannot be equal to `1`.  For `60` only the following numbers have inverses (as shown):
+cannot be equal to `1`.  For `mod 60` only the following numbers have inverses (as shown):
 
 ```
 7 43
@@ -30,163 +42,231 @@ cannot be equal to `1`.  For `60` only the following numbers have inverses (as s
 
 ```
 
-Only the primes have inverses, and only those primes that do not evenly divide `60`. 
+#### extended EA recap
 
-For this reason, it is more common to think about fields `mod p` where `p` is prime.   Then all `1 < n < p` will have inverses.
+In the [previous](ee1.md) write-up, we went through two methods for using the information from a run of the EA to compute the multiplicative inverse of a number mod `a`, the larger number input to the EA algorithm.  
 
-#### Example
+I call these the "forward" and "backward" methods.  
 
-The easiest way to understand this is by example.  Suppose we compute `gcd(60,13)`.
+The backward method runs the EA to completion first, then processes the data in reverse order.  I found it relatively easy to code this one.
 
-```
-60 = 4 x 13 + 8
-13 = 1 x  8 + 5
- 8 = 1 x  5 + 3
- 5 = 1 x  3 + 2
- 3 = 1 x  2 + 1
- 2 = 2 x  1 + 0
-```
+#### backward code
 
-At this point `b == 1` and `r == 0`, so the result is equal to `1`.
-
-There is additional information here, both in the quotients `q` in `a = qb + r`, and in the remainders.  Let's focus on the `q` values.
-
-What we do first is discard the last row, and then also rearrange each item to be in the form `r = a - q(b)`:
+With data from a run for `a = 231` and `b = 130`:
 
 ```
- 8 = 60 - 4(13)
- 5 = 13 - 1(8)
- 3 =  8 - 1(5)
- 2 =  5 - 1(3)
- 1 =  3 - 1(2)
+101 = 231 - (1)130
+ 29 = 130 - (1)101
+ 14 = 101 - (3)29
+  1 =  29 - (2)14
+  0 =  14 - (1)14
 ```
 
-Process the items in inverse order.
+Consider this step:
 
-    1 =  3 - 1(2)
+    1 = 29 + (-2)14    
+    1 = 29 + (-2)[101 - 3(29)]
+    1 = (-2)101 + (7)29
 
-Now, substitute for `2` from the line above:
+We need two variables, call them `x` and `y`.
 
-    1 = 3 -  1[5 - 1(3)]
+The data from the previous round is `x = 1` (the coefficient of `29`), and `y = -2` (the coefficient of `14`).
 
-We have `-1(5)` and then two factors containing `(3)`:
+For the update, we need the new value of `q`, the quotient in the equation `q(b) = (3)29`.
 
-    1 = -1(5) + (1 + 1)(3)
-      = -1(5) + 2(3)
+The new values of `x` and `y` are:
 
-And we can check easily that this is correct.  Continue with round 3:
-
-    1 = -1(5) + 2(3)
-    1 = -1(5) + 2[8 - 1(5)]
-      =  2(8) - 3(5)
- 
-At each stage we generate a true equality, we always have the larger number with two terms to be combined.  And the signs stay with the terms:  all terms with `(5)` will be negative, for example.
-
-Round 4:
-
-    1 = 2(8) - 3(5)
-      = 2(8) - 3[13 - 1(8)]
-      = -3(13) + 5(8)
-
-Round 5:
-
-    1 = -3(13) + 5(8)
-      = -3(13) + 5[60 - 4(13)]
-      = -23(13) + 5(60)
-
-Check that `23(13) = 299`.  Yes.
-
-You remember from [last time](ee1.md) when we said that we can take an equation like
-
-     1 = -23(13) + 5(60)
-
-and take the `mod` of both sides and even of the individual terms
-
-     1 mod 60 = -23(13) mod 60 + 5(60) mod 60
-
-But the left-hand side is just `1` and the last term is `0` so we have
-
-     1 = -23(13) mod 60
-
-The very definition of the modular multiplicative inverse!
-
-The only other step is to realize that
-
-    -23 mod 60 = 37
-   
-and indeed
-
-    37 * 13 % 60 = 1
+    x = y
+    y = x - yq
     
-#### Code
+where `x` in the second equation is the old value.  We need a temporary variable to hold this value.
 
-Code was a bit challenging.  I couldn't really understand the code I got from the web.
-
-I tried doing things symbolically, but it turned into a mess.  I deleted it so I don't have it to show, but it contained terms like
-
-    q1q3 + q1q5 + q1q2q3q4q5 + ...
-    
-and I couldn't find a pattern with 5 rounds and I didn't feel like carrying out any more.
-
-After staring at the example for a while, I came up with code which returns all the data from `gcd` (we need only the quotients but the rest of it makes it possible to print exactly what we have written above in the example.
-
-Using those quotients and starting with the correct `a` and `b`, the loop for rounds 2 and after is
+Here is the code for the inner loop from my version:
 
 ``` python
 for i in range(2,N):
     a,b,q,r = L.pop(0)
-    tmp = ca
-    ca = cb
-    cb = tmp - q * cb
-    t = a,b,q,r,ca,cb
+    tmp = x
+    x = y
+    y = tmp - q * y
+    t = a,b,q,r,x,y
     pp(t)   # pretty print
 ```
 
-which is simple enough that you have to wonder why I've struggled with this all day.
+For the first step, the equation is:
 
-The heart of it is to have two variables which hold the values of the coefficients of `a` and `b`:  `ca` and `cb`.  The value of `cb` is used in updating `ca` and vice-versa, so we use `tmp` to cache the value of `ca` for one line.
+    1 =  29 - (2)14
 
-Comparing to the code we had in the [previous section](ee1.md) possible disadvantage is that we go all the way through the Euclidean algorithm and then backtrack, but there isn't that much data to remember and there aren't that many steps.  There are only two variables really, `ca` and `cb`, and furthermore it is clear what they represent.
+so the values we need for `x` and `y` are:
 
-Anyway, the script [eea.py](scripts/eea.py) takes two integers on the command line and generates 
+    x = 1
+    y = -q
 
-```
-> python eea.py 60 13
-a=3,b=2,q=1,r=1,ca=1,cb=-1
-a=5,b=3,q=1,r=2,ca=-1,cb=2
-a=8,b=5,q=1,r=3,ca=2,cb=-3
-a=13,b=8,q=1,r=5,ca=-3,cb=5
-a=60,b=13,q=4,r=8,ca=5,cb=-23
-multiplicative inverse of 13 is 37 mod 60
->
-```
+Here is a run with some numbers I picked out of thin air:
 
-which matches what we had above.
-
-Just picking two random numbers out of thin air
-
-```
+```python
 > python eea.py 333337 58498
-a=16,b=3,q=5,r=1,ca=1,cb=-5
-a=35,b=16,q=2,r=3,ca=-5,cb=11
-a=86,b=35,q=2,r=16,ca=11,cb=-27
-a=465,b=86,q=5,r=35,ca=-27,cb=146
-a=1016,b=465,q=2,r=86,ca=146,cb=-319
-a=5545,b=1016,q=5,r=465,ca=-319,cb=1741
-a=17651,b=5545,q=3,r=1016,ca=1741,cb=-5542
-a=40847,b=17651,q=2,r=5545,ca=-5542,cb=12825
-a=58498,b=40847,q=1,r=17651,ca=12825,cb=-18367
-a=333337,b=58498,q=5,r=40847,ca=-18367,cb=104660
+a=16,b=3,q=5,r=1,x=1,y=-5
+a=35,b=16,q=2,r=3,x=-5,y=11
+a=86,b=35,q=2,r=16,x=11,y=-27
+a=465,b=86,q=5,r=35,x=-27,y=146
+a=1016,b=465,q=2,r=86,x=146,y=-319
+a=5545,b=1016,q=5,r=465,x=-319,y=1741
+a=17651,b=5545,q=3,r=1016,x=1741,y=-5542
+a=40847,b=17651,q=2,r=5545,x=-5542,y=12825
+a=58498,b=40847,q=1,r=17651,x=12825,y=-18367
+a=333337,b=58498,q=5,r=40847,x=-18367,y=104660
 multiplicative inverse of 58498 is 104660 mod 333337
->
+> 
 ```
-Note that the first row has `r=1` (these two are do not have a common divisor other than `1`).
 
-And just to check:
+Check it:
+
+```
+>>> 58498 * 104660 % 333337
+1
+>>>
+```
+    
+I found some code [here](https://en.wikibooks.org/wiki/Algorithm_Implementation/Mathematics/Extended_Euclidean_algorithm)
+
+```python
+# return (g, x, y) a*x + b*y = gcd(x, y)
+def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, x, y = egcd(b % a, a)
+        return (g, y - (b // a) * x, x)
+```
+
+What this recursive version does in effect is the backward algorithm.  It recursively calls itself, then builds up the result through all the returns.
+
+It's a bit confusing because the values of `b` and `a` are switched compared to my usage:  it does `b % a`.  `x` and `y` are also switched.
+
+The lines
+
+    g, x, y = egcd(b % a, a)
+    return (g, y - (b // a) * x, x)
+
+carry out the computation, assigning `x` for `y`, and `y - q*x` for `x`, in the `return` line.
+
+#### forward code
+
+Our run for `a = 231` and `b = 130` had this data:
+
+```
+101 = 231 - (1)130
+ 29 = 130 - (1)101
+ 14 = 101 - (3)29
+  1 =  29 - (2)14
+  0 =  14 - (1)14
+```
+
+and these steps:
+
+    101 = 231 - (1)130 
+        = a - b
+
+    29 = 130 - (1)101
+       = b - (1)(a - b)
+       = (-1)a + 2b
+
+    14 = 101 - (3)29
+       = (a - b) - (3)[(-1)a + (2)b]
+       = 4a - 7b
+
+    1 = 29 + (-2)14
+      = (-1)a + 2b - (2)[4a - 7b]
+      = -9a + 16b
+
+After noodling around for a bit, here is the pseudocode I came up with.  We need to retain values from two rounds back, stored in the variables `s` and `t`.
+
+```
+round -1
+s = 0
+t = 1
+
+round 0
+q = 1
+x = 1
+y = -q = -1
+
+round 1
+q = 1
+tmp = x,y = 1,-1
+x = s - qx = 0 - 1 = -1
+y = t - qy = 1 - (1)-1 = 2
+s, t = tmp = 1,-1
+
+round 2
+q = 3
+tmp = x,y = -1,2
+x = s - qx = 1 - 3(-1) = 4
+y = t - qy = -1 - (3)2 = -7
+s, t = tmp = -1,2
+
+round 3
+q = 2
+tmp = x,y = 4,-7
+x = s - qx = -1 - 2(4) = -9
+y = t - qy = 2 - (2)(-7) = 16
+s, t = tmp = 4,-7
+
+y is the inverse
+```
+
+This is the inner loop:
 
 ``` python
->>> 58498*104660 % 333337
+while r != 0:
+    a,b = b,r
+    q = a / b
+    r = a % b
+    tmp = x,y
+    x = s - q*x
+    y = t - q*y
+    s,t = tmp
+    print 'x',x,'y',y,'s',s,'t',t
+```
+
+[eea_forward.py](scripts/eea_forward.py)
+
+```
+> python eea_forward.py 231 130
+x 1 y -1
+x -1 y 2 s 1 t -1
+x 4 y -7 s -1 t 2
+x -9 y 16 s 4 t -7
+x 130 y -231 s -9 t 16
+16 is the inverse of 130 mod 231
+>
+```
+Check it
+
+```
+>>> 16 * 130 % 231
 1
 >>>
 ```
 
+Here is code from the web to carry out the forward method.  I haven't figured out how it works yet.
+
+``` python
+def eea(a,b):
+    s, t = 1, 0
+    u, v = 0, 1
+    while b != 0:
+        q = a / b
+        a, b = b, a % b
+        
+        tmp = s, t
+        s = u - (q * s)
+        t = v - (q * t)
+        (u,v) = tmp
+    return u
+
+print eea(53,10)
+```
+
+This is very similar to what I had, except that `u,v` plays the rols of `s,t`, and `s,t` plays the role of `x,y`. 

@@ -11,9 +11,9 @@ caesar.py), [mcipher.py](mcipher.py)
 - [euclidean, gcd](euclidean.md)
 - [eeuclidean](ee1.md)
 - [eeuclidean 2](ee2.md)
-- [eeuclidean 3](ee3.md)
-- Fermat and Euler [pdf](euler.pdf)
+- notes on Fermat and Euler's Theorems [pdf](euler.pdf)
 - [probably prime](probably_prime.md)
+- notes on Number Theory [pdf](number_theory.pdf)
 
 #### RSA keys
 - [intro to key structure](RSA_key_intro.md)

@@ -14,12 +14,11 @@ Consider the calculation of the greatest common divisor (gcd) of
 
 We see immediately that the `gcd(819,462) = 21`. The problem with this method is that there is no efficient algorithm to factor integers.
 
-The algorithm consists of the following steps:
+The `gcd` algorithm consists of the following steps:
 
 * compute `r = a mod b`
 * if `r == 0:  return b`
-* set `a = b`
-* set `b = r`
+* set `a = b` and `b = r`
 
 Example:
 

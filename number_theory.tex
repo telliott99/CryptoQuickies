@@ -19,21 +19,27 @@
 \maketitle
 \Large
 
-This is a quick summary of concepts in Chapter 3 of 
+This is a quick summary of some concepts in Chapter 3 of 
 
 \url{https://www.whitman.edu/mathematics/higher_math_online/}
 \section*{Congruence}
 
-For a positive integer $n$ and two integers $a$ and $b$, we say that $a$ and $b$ are congruent \emph{modulo} $n$, if they have the same remainder upon division by $n$, and we write
-\[ a \equiv b \text{ mod } n \]
+For a positive integer $n$ and two integers $a$ and $b$, we say that $a$ and $b$ are congruent \emph{modulo} $n$, if they have the same remainder upon division by $n$
 
-By this definition, if $a \equiv b$ mod $n$ we can write:
 \[ a = qn + r \]
 \[ b = q'n + r \]
-and we see that the difference between $a$ and $b$ is evenly divided by $n$, with no remainder.
+
+and write
+\[ a \equiv b \text{ mod } n \]
+
+It follows from this definition that the difference between $a$ and $b$ is evenly divided by $n$, with no remainder.
 \[ a - b = (q - q')n \]
 
-The converse is also true.  We write $n | a - b$ to mean that $n$ divides $a - b$ evenly.  If so, there is some $x$ such that
+The converse is also true.  We write
+
+\[ n \ | \ a - b \]
+
+to mean that $n$ divides $a - b$ evenly.  If so, there is some $x$ such that
 \[ a - b = xn \]
 \[ a = b + xn \]
 Since $b = q'n + r$
@@ -145,31 +151,121 @@ It turns out that $m$ is a \emph{linear combination} of $a$ and $b$, meaning tha
 
 Rearrange the previous equations to be differences:
 \[ r = (q)b - a \]
-\[ 30 = 198 - (1)168 = a - b \]
-\[ 18 = 168 - (5)30 \]
-\[ 12 = 30 - (1)18 \]
+
+\begin{verbatim}
+30 = 198 - (1)168
+18 = 168 - (5)30
+12 = 30  - (1)18
+ 6 = 18  - (1)12
+ 0 = 12  - (2)6
+\end{verbatim}
+
+I've struggled with coding this algorithm.  I find it relatively easy to work out by myself when going in reverse, so let's try that first.
+
+We must first go through forward to generate the lines above and find the $gcd$.  Then, start with the next to last line:
+
 \[ 6 = 18 - (1)12 \]
-\[ 0 = 12 - (2)6 \]
-
-Start with the first difference
-\[ 30 = 198 - 168 = a - b \]
-Go to the next difference
-\[18 = 168 - (5)30 = b - 5(a-b) = - 5a + 6b
-We can check this calculation: 
-\[ -5 \cdot 198 + 6 \cdot 168 = -990 + 1008 = 18 \]
-
-Continue
-\[ 12 = 30 - (1)18 = (a - b) - 1(- 5a + 6b) = 6a - 7b \]
-and then
-\[ 6 = 18 - 12 = (-5a + 6b) - (6a - 7b) = -11a + 13b \]
-Check again and see that this is correct.  
+Substitute for $12 = 30 - (1)18$ from the previous line:
+\[ 6 = 18 - 1 \ [ 30 - (1)18 \ ] \]
+Consolidate:
+\[ 6 = (2)18 - 1(30) \]
+Note the equality holds.  Switch terms
+\[ 6 = -(1)30 + (2)18 \]
+Substitute for $18 = 168 - (5)30$ from the previous line:
+\[ 6 = -(1)30 + 2 \ [ 168 - (5)30 \ ] \]
+Consolidate
+\[ 6 = -(11)30 + 2(168) \]
+Switch terms:
+\[ 6 = 2(168) -(11)30 \]
+Substitute for $30 = 198 - (1)168$ from the previous line:
+\[ 6 = 2(168) - 11 \ [ \ 198 - (1)168 \ ]  \]
+\[ 6 = 13(168) - 11(198) \]
+\[ 6 = - 11(198) + 13(168) \]
+Every equation above is a true equation, they all work out to $6$.
 
 Thus we have expressed the $gcd$ as a linear combination of $a$ and $b$.
 
-Now, for the cases we really care about, the $gcd$ will be equal to $1$, and we will end up with an equation like:
-\[ 1 = x \cdot a + y \cdot b \]
-and we will say that mod $a$
-\[ 1 = y \cdot b \]
+And now if we take mod $198$ of both sides we have
+\[ 13(168) \text{ mod } 198 \equiv 6 \]
 
+For the cases we really care about, the $gcd$ will be equal to $1$, and we will end up with an equation like:
+\[ 1 = x \cdot a + y \cdot b \]
+and we will say that
+\[ 1 = y \cdot b \text{ mod } a \]
+
+We've derived $y$, and shown that $y$ and $b$ are multiplicative inverses mod $a$.  That's the point.
+
+\subsection*{forward direction}
+
+Start with
+\[ 30 = 198 - 168 = a - b \]
+The next line is
+\[ 18 = 168 - (5)30 = b - 5(a - b) = -5a + 6b  \]
+Then
+\[ 12 = 30  - (1)18 = (a - b) - (-5a + 6b) = 6a - 7b \]
+Finally
+\[ 6 = 18  - (1)12 = (-5a + 6b) - (6a - 7b) = -11a + 13b \]
+which is just what we had before.
+
+\section*{Chinese Remainder Theorem}
+
+\subsection*{theorem}
+
+Let $r$ and $s$ be positive integers which are relatively prime, and let $a$ and $b$ be any two integers.
+
+Then there exists an integer $N$ such that
+
+\[ N \equiv a \text{ mod } r \]
+\[ N \equiv b \text{ mod } s \]
+
+Furthermore, $N$ is uniquely determined mod $rs$.
+
+One way to see this is to consider two side by side expansions, one with with $s$ copies of $Z_r$ and the other with $r$ copies of $Z_s$.
+
+\begin{verbatim}
+o o o o o x x x x x o o o o o x x x x x o o o o o x x x x x
+# # # # # # * * * * * * # # # # # # * * * * * * # # # # # #
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 
+                      N
+\end{verbatim}
+
+Any particular $N$ in $Z_{rs}$ corresponds to a unique pair of remainders mod $r$ and mod $s$. 
+
+In this example, $N = 11$
+\[ N \equiv 1 \text{ mod } 5 \]
+\[ N \equiv 5 \text{ mod } 6 \]
+
+Of all the numbers in $Z_{rs}$, only $N$ gives this pair of remainders $(1,5)$.
+
+There is a family of numbers $N + krs$ ($ k = 0, 1, 2 \dots$).  Every number in the family has the same remainder mod $r$ and, similarly, has the same remainder mod $s$, because $krs$ gives zero remainder with both $r$ and $s$.
+
+\subsection*{example}
+Let $r = 5$ and $s = 6$.  Suppose $a = 8$ and $b = 11$.
+\[ a = 8 \equiv 3 \text{ mod } 5 \]
+\[ b = 11 \equiv 5 \text{ mod } 6 \]
+There must be some $N < rs$ (namely $23$), with the same remainders:  $N \equiv 3 \text{ mod } 5$ and $N \equiv 5 \text{ mod } 6$.  The next such number is $N + rs$.
+\begin{verbatim}
+ 3  8 13 18 23 28 33 38 43 48 53
+ 5 11 17 23 29 35 41 47 53
+\end{verbatim}
+
+\section*{Euler Phi Function}
+
+$\phi(n)$ is defined to be the number of non-negative integers less than $n$ that are relatively prime to $n$.  $\phi(1)$ is defined to be $1$.
+
+\[ \phi(2) = 1, \ \ \ \{ 1 \} \]
+\[ \phi(3) = 2, \ \ \ \{ 1,2 \} \]
+\[ \phi(4) = 2, \ \ \ \{ 1,3 \} \]
+\[ \phi(5) = 4, \ \ \ \{ 1,2,3,4 \} \]
+
+If $p$ is prime, then 
+\[ \phi(p) = p - 1 \]
+
+If $p$ is prime and $a$ is a positive integer
+\[ \phi(p^a) = p^a - p^{a-1} \]
+
+If $n = pq$ where $p$ and $q$ are prime, or $n = ab$ where $a$ and $b$ are \emph{relatively} prime:
+\[ \phi(n) = \phi(p) \ \phi(q) = (p-1)(q-1) \]
+\[ \phi(n) = \phi(a) \ \phi(b) = (a-1)(b-1) \]
 
 \end{document}  

@@ -99,6 +99,8 @@ print eea(52,121)               # 7
 
 Let's put off an analysis of this for another time.
 
+[eeuclidean](ee1.md)
+
 #### Exponentiation
 
 We use essentially the same setup as for multiplication, except that we multiply rather than add.

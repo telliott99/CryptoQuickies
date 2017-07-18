@@ -26,31 +26,36 @@ L = gcd(a,b)
 L.reverse()
 
 N = len(L)
+
+if L[0][1] != 1:
+    print 'no inverse exists'
+    sys.exit()
+    
 L.pop(0)    # don't need the last one
 
 # round 1
-# define ca as the coefficient of a
-# define cb as the coefficient of b
+# define x as the coefficient of a
+# define y as the coefficient of b
 
 def pp(t):
-    print 'a=%d,b=%d,q=%d,r=%d,ca=%d,cb=%d' % t
+    print 'a=%d,b=%d,q=%d,r=%d,x=%d,y=%d' % t
 
 a,b,q,r = L.pop(0)
-ca = 1
-cb = -q
-t = a,b,q,r,ca,cb
+x = 1
+y = -q
+t = a,b,q,r,x,y
 pp(t)
 
 # round 2+
 for i in range(2,N):
     a,b,q,r = L.pop(0)
-    tmp = ca
-    ca = cb
-    cb = tmp - q * cb
-    t = a,b,q,r,ca,cb
-    pp(t)
+    tmp = x
+    x = y
+    y = tmp - q * y
+    t = a,b,q,r,x,y
+    pp(t)   # pretty print
 
-cb = cb % a
+y = y % a
 
 print 'multiplicative inverse of',
-print b, 'is', cb, 'mod', a
+print b, 'is', y, 'mod', a

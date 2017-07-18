@@ -26,13 +26,13 @@ The method is to repeat these steps:
 (i) find $r = a$ mod $b$;  (ii) terminate if $r = 0$, returning $b$;  (iii) set $a = b$ and $b = r$.  So for example
 \begin{verbatim}
 60 = 4(13) + 8
-13 = 1(8) +  5
- 8 = 1(5)  +  3
- 5 = 1(3)  +  2
- 3 = 1(2)  +  1
- 2 = 2(1) + 0
+13 = 1(8)  + 5
+ 8 = 1(5)  + 3
+ 5 = 1(3)  + 2
+ 3 = 1(2)  + 1
+ 2 = 2(1)  + 0
 \end{verbatim}
-The numbers on each line are, in order,
+The numbers on each line are
 
 \begin{verbatim}
 a = q(b) + r 
@@ -55,7 +55,7 @@ We can substitute for $2$ in the last line of the second part:
 We can continue in this way, substituting $3 = 8 - 1(5)$
 \[ = 2 \ [ \ 8 - 1(5) \ ] \ - 1(5) \]
 \[ = 2(8) - 3(5) \]
-$5 = 13 - 1(8)$
+and $5 = 13 - 1(8)$
 \[ = 2(8) - 3 \ [ \ 13 - 1(8) \ ] \]
 \[ = 5(8) - 3(13) \]
 and finally $8 = 60 - 4(13)$
