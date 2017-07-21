@@ -5,6 +5,9 @@
 caesar.py), [mcipher.py](mcipher.py)
 - [Beale cipher](Beale_cipher.md)
 
+#### Passwords
+- Python random password [script](pw.py)
+
 #### math
 - [public key math](public-key_math.md)
 - [modular math](modular_math.md)

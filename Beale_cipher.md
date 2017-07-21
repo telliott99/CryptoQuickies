@@ -8,11 +8,11 @@ This [script](scripts/we_the_people.py) yields the first 256 characters in upper
     ..
     ABLISHTHISCONSTITUTIONFORTHEUNITEDSTA
 
-We could use this text as a one-time pad to encrypt a message like 
+We could use the text as a one-time pad to encrypt a message like 
 
     ATTACKATDAWN
 
-The encryption method is this:  for every character `m` of the message, take the corresponding character `k` from the pad (here I refer to it as the key).  `i` is the index of `m` offset by the index of `k`, mod `26`.  Return that character of the alphabet.
+The encryption method is this:  for every character `m` of the message, take the corresponding character `k` from the pad (here I refer to it as the key).  `i` is the index of `m` plus the index of `k`, mod `26`.  Return that character of the alphabet.
 
 ``` python
 def f(m, k, mode='enc'):
@@ -57,7 +57,47 @@ Then choose a row based on the key and the column based on the message character
 
 This method is called the [Vigenère cipher](https://en.wikipedia.org/wiki/Vigenère_cipher).
 
-In Python, I would do this with a dictionary of dictionaries:  `c = D[k[m]]`.
+Here is Python code to do this with a list:
+
+```python
+>>> alpha = 'ABCDE'
+>>> n = len(alpha) + 1
+>>> s = alpha * n
+>>> L = list()
+>>> for i in range(0,len(s),n):
+...     L.append(s[i:i+n-1])
+... 
+>>> print '\n'.join(L)
+ABCDE
+BCDEA
+CDEAB
+DEABC
+EABCD
+>>>
+```
+
+I might do this with a dictionary of dictionaries:  `c = D[k[m]]`.
+
+```python
+alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+n = len(alpha)
+s = alpha*2
+D = dict()
+
+for i,k in enumerate(alpha):
+    sD = dict(zip(alpha,s[i:i+n]))
+    D[k] = sD
+
+#---------------------
+
+msg = 'ATTACKATDAWN'
+key = 'WETHEPEOPLEO'
+
+pL = list()
+for m,k in zip(msg,key):
+    pL.append(D[k][m])
+print ''.join(pL)    # WXMHGZEHSLAB
+```
 
 #### Transposition
 
