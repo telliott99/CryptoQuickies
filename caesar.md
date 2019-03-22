@@ -94,7 +94,7 @@ Even numbered multiplicands fail to make a good cipher because you never hit the
 
 If you look at the script you'll see that I tried every value up to 1000.  In all, we found 12 values that make good ciphers.  It's not necessary to test any multiplicands `n > 26` because one of these has the same effect as `n % 26`.
 
-It's interesting that the "bad" keys are the divisible by the prime factors of the alphabet size, 26.  Other alphabets, like Julius Caesar's Latin (21 characters) or Scandinavian languages (29 characters), would have different bad keys.
+It's interesting that the "bad" keys are the divisible by the prime factors of the alphabet size, 26.  Other alphabets, like Julius Caesar's Latin (21 characters) or Greek (24 characters) or Scandinavian languages (29 characters), would have different bad keys.
 
 
 

@@ -53,7 +53,7 @@ Rather than do the calculation for each character, another method is to construc
  ZABCDEFGHIJKLMNOPQRSTUVWXY]
 ```
 
-Then choose a row based on the key and the column based on the message character (or vice-versa).  Here is an nice [image](figs/vigenere.png).
+Then choose a row based on the key and the column based on the message character (or vice-versa).  Here is a nice [image](figs/vigenere.png).
 
 This method is called the [Vigenère cipher](https://en.wikipedia.org/wiki/Vigenère_cipher).
 
